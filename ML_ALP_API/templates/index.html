@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberbullying Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            text-align: center;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cyberbullying Detector</h1>
+    <!-- form to predict -->
+    <div class="input-container">
+        <input id="textInput" type="text" placeholder="Enter text here...">
+        <button onclick="getPrediction()">Predict</button>
+    </div>
+    <!-- print result -->
+    <div id="result" class="result"></div>
+
+    <script>
+        async function getPrediction() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                alert('Please enter some text.');
+                return;
+            }
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+
+            const data = await response.json();
+            document.getElementById('result').textContent = `Prediction: ${data.prediction}`;
+        }
+    </script>
+</body>
+</html>
